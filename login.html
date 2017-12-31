@@ -3,13 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Hot Potato Login</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
+
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+
 </head>
 <body>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/js/bootstrap.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <h1>Hot Potato Game</h1>
-<form>
-    <input type="text" placeholder="Your name">
-    <button type="submit" onclick={send('/game.html')}>Join Game</button>
+<form id="form">
+    <input type="text" id="userName" placeholder="Your name">
+    <a href="/lobby" class="btn btn-primary" id="submit">Join Game</a>
 </form>
+
+<script>
+    $(function() {
+        var socket = io();
+        $('#form').submit(function(){
+            socket.emit('user logged in', $('#userName').val());
+        });
+    });
+</script>
 
 
 </body>

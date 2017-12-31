@@ -3,12 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <title>Game</title>
+    <script
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
 </head>
 <body>
+
+    <script src="/socket.io/socket.io.js"></script>
     <h1>Game</h1>
-    <img src="https://orhanergun.files.wordpress.com/2015/01/hot_potato.jpg" id="potato">
+    <img src="https://orhanergun.files.wordpress.com/2015/01/hot_potato.jpg" id="potato" style="position: relative;">
+
     <br>
-    <button onclick={document.getElementById('potato').style.visibility="hidden"}>Pass Potato!</button>
-    <button onclick={document.getElementById('potato').style.visibility="visible"}>Get Potato!</button>
+    <script>
+        var socket = io();
+        socket.emit('get users');
+
+        function passPotato(){
+            socket.emit('pass potato');
+            slidePotatoOutOfScreen();
+        }
+
+        function slidePotatoOutOfScreen(){
+            $('#potato').animate({left: '-50%'}, 500);
+        }
+
+        socket.on('receive potato', function(){
+            slidePotatoIntoScreen();
+        });
+        function slidePotatoIntoScreen(){
+            $('#potato').animate({left: '0%'});
+            $('#potato').animate({right: '50%'});
+        }
+    </script>
+    <button onclick={passPotato()}>Pass Potato!</button>
+    <button onclick={slidePotatoIntoScreen()}>Get Potato!</button>
 </body>
 </html>
